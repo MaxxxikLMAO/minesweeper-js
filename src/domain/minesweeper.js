@@ -1,4 +1,4 @@
-import {field} from "./models/field.js";
+import { field } from "./models/field.js";
 
 export class Minesweeper {
 
@@ -10,14 +10,41 @@ export class Minesweeper {
     constructor(rows, columns, bombs = null) {
         this.rows = rows;
         this.columns = columns;
-
         this.isGameOver = false;
 
-        if (bombs == null)
+        if (bombs == null) {
             this.bombs = this._calculateDefaultBombs();
-        else
+        } else {
             this.bombs = bombs;
+        }
+
+        this.array = [];
+        
+
+        for (let i = 0; i < rows; i++) {
+            let k = [];
+
+            for (let j = 0; j < columns; j++) {
+                k.push(field.hidden)
+            }
+            
+            this.array.push(k);
+        }
+
+        this.bomblocations = [];
+
+        for(let h = 0; h < bombs; h++) {
+            let x = Math.floor(Math.random() * this.columns);
+            let y = Math.floor(Math.random() * this.rows);
+            let coordinate = new Coordinate(x,y);
+            this.bomblocations.push(coordinate);
+            
+
+        }
+        console.log(this.bomblocations)
     }
+
+    
 
     /**
      * TODO: IMPLEMENT THIS
@@ -27,7 +54,9 @@ export class Minesweeper {
      * @return {number} amount of bombs
      */
     _calculateDefaultBombs() {
-        return 10;
+        let defaultbombs = 10;
+        return defaultbombs;
+
     }
 
     /**
@@ -39,7 +68,20 @@ export class Minesweeper {
      * @return {field}
      */
     getField(x, y) {
-        return field.hidden;
+        
+        if(left.click) {
+
+            if(bomb) {
+                this.isGameOver == true;
+            } else {
+                null
+            }
+            
+        } else {
+            null
+        }
+
+        return this.array[x][y];
     }
 
     /**
@@ -72,7 +114,7 @@ export class Minesweeper {
      * @param {number} y
      */
     reveal(x, y) {
-
+        this.array[y][x] = field.visible;
     }
 
     /**
@@ -82,6 +124,17 @@ export class Minesweeper {
      * @param {number} y
      */
     toggleFieldState(x, y) {
+        if (this.array[y][x] == field.hidden)
+            this.array[y][x] = field.flag;
+
+        else if (this.array[y][x] == field.flag)
+            this.array[y][x] = field.question_mark;
+
+        else if (this.array[y][x] == field.question_mark)
+            this.array[y][x] = field.hidden;
+
+        else
+            this.array[y][x] = field.visible;
     }
 
     /**
@@ -90,6 +143,7 @@ export class Minesweeper {
      * @returns {boolean}
      */
     didWin() {
+        if(this.isGameOver == false)
         return false;
     }
 
@@ -99,9 +153,10 @@ export class Minesweeper {
      * @returns {boolean}
      */
     didLoose() {
-        return false;
+        if(this.isGameOver == true)
+        return true;
+    
     }
-
     /**
      * Returns the remaining amount bombs, user has to select
      * @return {number}
