@@ -12,11 +12,11 @@ export class Minesweeper {
         this.columns = columns;
         this.isGameOver = false;
 
-        if (bombs == null) {
+        if (bombs == null) 
             this.bombs = this._calculateDefaultBombs();
-        } else {
+        else 
             this.bombs = bombs;
-        }
+        
 
         this.array = [];
         
@@ -69,18 +69,6 @@ export class Minesweeper {
      */
     getField(x, y) {
         
-        if(left.click) {
-
-            if(bomb) {
-                this.isGameOver == true;
-            } else {
-                null
-            }
-            
-        } else {
-            null
-        }
-
         return this.array[x][y];
     }
 
